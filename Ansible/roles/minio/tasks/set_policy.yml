@@ -1,0 +1,4 @@
+- name: Set policy on public buckets
+  shell: docker exec {{ minio_container_name }} mc anonymous set {{ minio_policy_buckets }} {{ minio_deployment_name }}/{{ item }}
+  loop: "{{ minio_public_buckets }}"
+  tags: set_bucket_policy

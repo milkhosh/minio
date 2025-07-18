@@ -1,0 +1,58 @@
+- name: Create Directory for {{ app_name }}
+  file:
+    path: /opt/{{ app_name }}
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Set up and start MinIO container
+  block:
+    - name: Ensure /opt/minio exists
+      file:
+        path: /opt/minio
+        state: directory
+        mode: '0755'
+
+    - name: Copy Common Direcory files to target
+      copy:
+        src: "{{ item }}"
+        dest: "/opt/minio/{{ item | basename }}"
+      loop:
+        - "{{ role_path }}/files/docker-compose.yml"
+        - "{{ role_path }}/files/.env"
+
+    - name: Copy Docker Compose and .env files to target
+      copy:
+        src: "{{ item }}"
+        dest: "/opt/minio/{{ item | basename }}"
+      loop:
+        - "{{ role_path }}/files/docker-compose.yml"
+        - "{{ role_path }}/files/.env"
+
+    - name: Launch MinIO with Docker Compose
+      command: docker compose -f docker-compose.yml --env-file .env up -d
+      args:
+        chdir: /opt/minio
+
+    - name: show minio variables
+      debug:
+        msg:
+          - "MINIO_ROOT_USER: {{ minio_root_user }}"
+          - "minio_root_password: {{ minio_root_password }}"
+          - "minio_deployment_name: {{ minio_deployment_name }}"
+          - "minio_domain_address: {{ minio_domain_address }}"
+          - "minio_private_buckets: {{ minio_private_buckets }}"
+          - "minio_public_buckets: {{ minio_public_buckets }}"
+
+    - name: Wait until MinIO is up and mc can connect
+      shell: |
+        until docker exec -it {{ minio_container_name }} mc alias set {{ minio_deployment_name }} {{ minio_domain_address }} {{ minio_root_user }} "{{ minio_root_password }}"; do
+          echo "Waiting for MinIO..."
+          sleep 1
+        done
+      register: wait_result
+      retries: 2
+      delay: 1
+      until: wait_result.rc == 0
+  tags: minio_deploy

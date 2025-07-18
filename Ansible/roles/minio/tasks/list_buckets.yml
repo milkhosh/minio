@@ -1,0 +1,11 @@
+- name: List all buckets
+  shell: docker exec {{ minio_container_name }} mc ls {{ minio_deployment_name }}
+  register: bucket_list
+  tags: list
+
+- name: Print the list of buckets
+  debug:
+    msg: " {{ bucket_list.stdout }}"
+  tags: list
+
+

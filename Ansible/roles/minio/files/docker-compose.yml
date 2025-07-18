@@ -1,0 +1,24 @@
+services:
+  minio:
+    image: ${MINIO_IMAGE}
+    container_name: minio
+    hostname: minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MC_ACCESS_KEY: ${MC_ACCESS_KEY}
+      MC_SECRET_KEY: ${MC_SECRET_KEY}
+      MINIO_DOMAIN_ADDRESS: ${MINIO_DOMAIN_ADDRESS}
+    volumes:
+      - minio_data:/data
+networks:
+  minionetwork:
+    driver: bridge
+
+volumes:
+  minio_data:
+    driver: local

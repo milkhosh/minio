@@ -1,0 +1,13 @@
+- name: Check if the access key exists
+  shell: |
+    docker exec {{ minio_container_name }} mc admin accesskey list {{ minio_deployment_name }}/{{ minio_access_key }}
+  register: accesskey_check
+  ignore_errors: yes  # Ignore errors if the user doesn't exist
+
+- name: Create access key if it doesn't exist
+  shell: |
+    docker exec {{ minio_container_name }} mc admin accesskey create {{ minio_deployment_name }}/ \
+      --access-key {{ minio_access_key }} \
+      --secret-key {{ minio_secret_key }} \
+      --name {{ minio_access_key_name }}
+  when: accesskey_check.rc != 0  # Only run if the access key doesn't exist

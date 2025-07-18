@@ -1,0 +1,19 @@
+minio_image: docker.io/bitnami/minio:latest
+minio_root_user: miniouser
+minio_root_password: y1asdasdgfdfg315&M
+minio_access_key: sdfhsdfasdjsfshdj324
+minio_secret_key: jsdkfjsf3243dfsdffgdsagfdgkjf
+minio_domain_address: http://localhost:9000
+minio_access_key_name: testuser
+
+minio_private_buckets: 
+  - bucketaaa
+  - bucketbbb
+
+minio_public_buckets: 
+  - bucketccv
+  - bucketddd
+
+minio_policy_buckets: public
+minio_container_name: minio
+minio_deployment_name: local

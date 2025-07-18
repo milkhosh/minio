@@ -1,0 +1,15 @@
+- name: Create private buckets
+  shell: |
+    if ! docker exec {{ minio_container_name }} mc ls {{ minio_deployment_name }}/{{ item }}; then
+      docker exec {{ minio_container_name }} mc mb {{ minio_deployment_name }}/{{ item }}
+    fi
+  loop: "{{ minio_private_buckets }}"
+  tags: create_private_buckets
+
+- name: Create public buckets
+  shell: |
+    if ! docker exec {{ minio_container_name }} mc ls {{ minio_deployment_name }}/{{ item }}; then
+      docker exec {{ minio_container_name }} mc mb {{ minio_deployment_name }}/{{ item }}
+    fi
+  loop: "{{ minio_public_buckets }}"
+  tags: create_public_buckets

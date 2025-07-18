@@ -1,0 +1,8 @@
+---
+- name: Deploy MINIO
+  hosts: minio
+  become: true
+  roles: 
+    - minio
+  # tasks:
+  #   - import_tasks: ../roles/minio/tasks/create_buckets.yml   

@@ -1,0 +1,5 @@
+- import_tasks: deploy.yml
+- import_tasks: create_buckets.yml
+- import_tasks: set_policy.yml
+- import_tasks: create_accesskey.yml
+- import_tasks: list_buckets.yml
