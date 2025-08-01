@@ -1,8 +1,8 @@
-minio_image: docker.io/bitnami/minio:latest
+minio_image: docker.io/minio/minio:latest
 minio_root_user: miniouser
-minio_root_password: y1asdasdgfdfg315&M
+minio_root_password: yasd1asdasdgfdfg315&M
 minio_access_key: sdfhsdfasdjsfshdj324
-minio_secret_key: jsdkfjsf3243dfsdffgdsagfdgkjf
+minio_secret_key: jsdkfjs123f3243dfsdffgdsagfdgkjf
 minio_domain_address: http://localhost:9000
 minio_access_key_name: testuser
 
